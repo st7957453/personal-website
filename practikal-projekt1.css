@@ -1,0 +1,73 @@
+/* Загальні стилі */
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #ffffff;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+/* Заголовок */
+h1 {
+  text-align: center;
+  color: #222;
+  margin-bottom: 20px;
+}
+
+/* Таблиця */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Заголовки колонок */
+th {
+  background: #ddd;
+  color: #222;
+  text-transform: uppercase;
+  font-size: 14px;
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* Звичайні комірки */
+td {
+  padding: 8px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* Рядок з тижнем */
+.period {
+  background: #ccc;
+  color: #222;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Стовпчик з днями */
+.day {
+  font-weight: bold;
+  background: #f4f4f4;
+  color: #222;
+  width: 120px;
+}
+
+/* Типи занять */
+.theory {
+  background: #e0f0ff;
+}
+
+.training {
+  background: #fff4d6;
+}
+
+.free {
+  background: #f8f8f8;
+  font-style: italic;
+  color: #666;
+}
