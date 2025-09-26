@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Основи CSS</title>
+  <link rel="stylesheet" href="practikal-projekt2.css">
+</head>
+<body>
+
+  <!-- Контейнер сторінки -->
+  <div class="form-container">
+    <h1>Форма</h1>
+
+    <!-- Створення форми -->
+    <form action="https://webhook.site/7fac6b86-2980-429f-820e-43d37689e7c0" method="post">
+
+      <div class="form-group">
+        <label for="fname">Ім’я</label>
+        <input type="text" id="fname" name="first_name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="lname">Прізвище</label>
+        <input type="text" id="lname" name="last_name" required>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Електронна пошта</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Пароль</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="confirm_password">Підтвердження паролю</label>
+        <input type="password" id="confirm_password" name="confirm_password" required>
+      </div>
+
+      <div class="form-group">
+        <label for="dob">Дата народження</label>
+        <input type="date" id="dob" name="birth_date">
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Стать</label>
+        <select id="gender" name="gender">
+          <option value="">Оберіть</option>
+          <option value="male">Чоловіча</option>
+          <option value="female">Жіноча</option>
+          <option value="other">Інша</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <input type="submit" value="Відправити">
+      </div>
+    </form>
+
+    <!-- Повернення на головну -->
+    <div class="back-link">
+      <a href="https://st7957453.github.io/personal-website/">На головну</a>
+    </div>
+  </div>
+
+</body>
+</html>
