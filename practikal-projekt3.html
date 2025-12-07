@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практична робота 3</title>
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="icon" type="image/x-icon" href="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <base target="_blank">
+  <style>
+    /* ========== Базові налаштування ========== */
+    :root{
+      --bg: #ffffff;
+      --panel: #f5f7fa;
+      --muted: #6b7280;
+      --text: #111827;
+      --accent: #0ea5a8; /* бірюзовий акцент */
+      --border: #e6e9ee;
+      --item-hover: #eef3fb;
+    }
+    *{box-sizing: border-box}
+    body {
+      margin: 0;
+      font-family: "Roboto", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* --- Верхня панель --- */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background-color: var(--panel);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(16,24,40,0.03);
+    }
+
+    .topbar .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topbar .sidebar-header i {
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .topbar .sidebar-header img {
+      height: 22px;
+      filter: none;
+    }
+
+    .search-bar {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      max-width: 640px;
+      max-height: 44px;
+      padding: 0 12px;
+    }
+
+    .search-bar input {
+      width: 100%;
+      height: 36px;
+      font-size: 15px;
+      padding: 8px 12px;
+      background-color: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: 20px 0 0 20px;
+      outline: none;
+      box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+    }
+
+    .search-bar button {
+      background-color: #fff;
+      border: 1px solid var(--border);
+      border-left: 0;
+      padding: 8px 14px;
+      border-radius: 0 20px 20px 0;
+      color: var(--muted);
+      cursor: pointer;
+      box-shadow: 0 1px 2px rgba(16,24,40,0.03);
+    }
+    .search-bar button i { color: var(--muted); }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: var(--muted);
+    }
+
+    .avatar {
+      width: 27px;
+      height: 27px;
+      border-radius: 50%;
+      background: linear-gradient(135deg,#fff,#f1f5f9);
+      display: inline-block;
+    }
+
+    /* --- Бічна панель --- */
+    .sidebar {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      width: 240px;
+      height: calc(100% - 64px);
+      padding-top: 12px;
+      background-color: var(--panel);
+      overflow-y: auto;
+      border-right: 1px solid var(--border);
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 22px;
+    }
+
+    .sidebar-header i {
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .sidebar-header img {
+      height: 22px;
+      filter: none;
+    }
+
+    .sidebar-section {
+      margin-bottom: 10px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 11px 18px;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      border-radius: 10px;
+      margin: 6px 10px;
+    }
+
+    .sidebar-item:hover {
+      background-color: var(--item-hover);
+    }
+
+    .sidebar-item i {
+      font-size: 18px;
+      width: 22px;
+      text-align: center;
+      color: inherit;
+    }
+
+    .divider {
+      border-bottom: 1px solid var(--border);
+      margin: 12px 10px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 8px 20px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .sidebar::-webkit-scrollbar-thumb {
+      background-color: #d6dbe5;
+      border-radius: 6px;
+    }
+
+    .fas, .fa, .far, .fab {
+      color: inherit !important;
+    }
+
+    /* --- Основний контент --- */
+    .main-content {
+      margin-left: 240px;
+      padding: 28px;
+      flex: 1;
+      overflow-y: auto;
+      min-height: calc(100vh - 64px);
+      background-color: var(--bg);
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .video-card {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--border);
+      box-shadow: 0 6px 18px rgba(16,24,40,0.03);
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .video-card:hover{
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(16,24,40,0.06);
+    }
+
+    .thumbnail {
+      position: relative;
+      background: #f2f4f7;
+    }
+
+    .thumbnail img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .video-time {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background-color: rgba(0, 0, 0, 0.75);
+      color: #fff;
+      font-weight: 600;
+      font-size: 12px;
+      padding: 4px 6px;
+      border-radius: 6px;
+    }
+
+    .video-info {
+      padding: 12px 14px;
+    }
+
+    .video-title {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .video-title .title-and-meta {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-title a.title-link {
+      color: var(--text);
+      text-decoration: none;
+      flex: 1;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .video-title i {
+      color: var(--muted);
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .channel-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #e9eff6;
+      flex-shrink: 0;
+      border: 1px solid var(--border);
+      object-fit: cover;
+    }
+
+    .channel-info {
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+      line-height: 1.2;
+    }
+    .channel-info a:hover {
+      color: var(--accent);
+    }
+
+    .channel-info a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-bottom: 1px;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .channel-info span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Адаптивність */
+    @media (max-width: 900px) {
+      .sidebar {
+        display: none;
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+      .topbar { padding: 8px 12px; }
+      .search-bar { max-width: 360px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+  <div class="sidebar-header">
+    <img 
+      src="https://www.gstatic.com/youtube/img/branding/youtubelogo/svg/youtubelogo.svg" 
+      alt="YouTube Logo"
+      style="height:22px"
+    >
+  </div>
+
+  <div class="search-bar">
+    <input type="text" placeholder="Пошук">
+    <button aria-label="Пошук"><i class="fas fa-search"></i></button>
+  </div>
+
+  <div class="topbar-right">
+    <i class="fas fa-bell"></i>
+
+    <div class="avatar">
+      <img 
+        src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+        style="width:100%;height:100%;border-radius:50%"
+      >
+    </div>
+  </div>
+</div>
+
+
+  <div class="sidebar" role="navigation" aria-label="Бічна панель">
+    <div class="sidebar-section">
+      <div class="sidebar-item"><i class="fas fa-home"></i> Головна</div>
+      <div class="sidebar-item"><i class="fas fa-bolt"></i> Shorts</div>
+      <div class="sidebar-item"><i class="fas fa-tv"></i> Підписки</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="section-title">Ви</div>
+    <div class="sidebar-section">
+      <div class="sidebar-item"><i class="fas fa-clock-rotate-left"></i> Історія</div>
+      <div class="sidebar-item"><i class="fas fa-list"></i> Плейлисти</div>
+      <div class="sidebar-item"><i class="fas fa-video"></i> Ваші відео</div>
+      <div class="sidebar-item"><i class="fas fa-stopwatch"></i> Переглянути пізніше</div>
+      <div class="sidebar-item"><i class="fas fa-thumbs-up"></i> Відео, які сподобалися</div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="section-title">Що нового</div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-item"><i class="fas fa-music"></i> Музика</div>
+      <div class="sidebar-item"><i class="fas fa-film"></i> Фільми</div>
+      <div class="sidebar-item"><i class="fas fa-gamepad"></i> Ігри</div>
+      <div class="sidebar-item"><i class="fas fa-newspaper"></i> Новини</div>
+      <div class="sidebar-item"><i class="fas fa-chalkboard"></i> Навчання</div>
+      <div class="sidebar-item"><i class="fas fa-volleyball"></i> Спорт</div>
+    </div>
+
+  </div>
+
+  <div class="main-content">
+    <div class="video-grid">
+      <div class="video-card">
+        <div class="thumbnail">
+          <a href="https://www.youtube.com/watch?v=qC8BFF5Qfjw&t=1472s">
+            <img src="https://i.ytimg.com/vi/qC8BFF5Qfjw/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBOkTa4RRebEXGjmR34agG5U4EL5w" alt="Thumbnail 1">
+            <div class="video-time">47:59</div>
+          </a>
+        </div>
+        <div class="video-info">
+          <div class="video-title">
+            <a href="https://www.youtube.com/@SVITNAVYVORIT">
+              <img class="channel-icon" src="https://yt3.ggpht.com/hxMd0BTw-NZo8_mAsQWRbSaNUDqAxFeW-f51uGQtO5JXwnGTgP0czl8V8ctQ3jkiVbpSTYGwKg=s68-c-k-c0x00ffffff-no-rj">
+            </a>
+            <div class="title-and-meta">
+              <a class="title-link" href="https://www.youtube.com/watch?v=qC8BFF5Qfjw&t=1472s">Чорна сторінка в історії Камбоджі! Диктатура, ув'язнення, катівні. Світ навиворіт. Камбоджа 7 випуск 48 минут</a>
+              <div class="channel-info">
+                <a href="https://www.youtube.com/@SVITNAVYVORIT">СВІТ НАВИВОРІТ</a>
+                <span>27 тис. переглядів • 12 днів тому</span>
+              </div>
+            </div>
+            <i class="fas fa-ellipsis-v" title="Меню"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="thumbnail">
+          <a href="https://www.youtube.com/watch?v=79zcbEGBfvk">
+            <img src="https://i.ytimg.com/vi/79zcbEGBfvk/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD97Ll8aRqW6gx3L-JU8CJOrIpBIQ">
+            <div class="video-time">12:55</div>
+          </a>
+        </div>
+        <div class="video-info">
+          <div class="video-title">
+            <a href="https://www.youtube.com/@uttoronto">
+              <img class="channel-icon" src="https://yt3.ggpht.com/zhiPwgxpX2GW_Koa5-6BrKn5pjSXgOq69tA3UAqOZUy4LlhR-_fQTQsRukx_bm6TUUNGvg_Ta3Q=s48-c-k-c0x00ffffff-no-rj">
+            </a>
+            <div class="title-and-meta">
+              <a class="title-link" href="https://www.youtube.com/watch?v=79zcbEGBfvk">РОСІЯ ЗМІНИЛА ТАКТИКУ: нові удари по енергетиці - що це означає для України зимою</a>
+              <div class="channel-info">
+                <a href="https://www.youtube.com/@uttoronto">Телебачення Торонто <i class="fas fa-check-circle"></i></a>
+                <span>12 тис. переглядів • 2 години тому</span>
+              </div>
+            </div>
+            <i class="fas fa-ellipsis-v"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="thumbnail">
+          <a href="https://www.youtube.com/watch?v=xssArMvJbd4">
+            <img src="https://i.ytimg.com/vi/xssArMvJbd4/hq720.jpg">
+            <div class="video-time">10:36</div>
+          </a>
+        </div>
+        <div class="video-info">
+          <div class="video-title">
+            <a href="https://www.youtube.com/@ab3army">
+              <img class="channel-icon" src="https://yt3.googleusercontent.com/kGkgr-DiUFOzkdogRPJVFXdE2qee4VsOHlPZm0DmzAwALGDE_ulEOY4hmTgw2l5puUAgqHYHZg=s160-c-k-c0x00ffffff-no-rj">
+            </a>
+            <div class="title-and-meta">
+              <a class="title-link" href="https://www.youtube.com/watch?v=xssArMvJbd4">«Русские не сдаются? Ну ладно» — розвідники 3 ОШБр ліквідували ДРГ в напрямку траси Ізюм-Словʼянськ</a>
+              <div class="channel-info">
+                <a href="https://www.youtube.com/@ab3army">Третій армійський корпус <i class="fas fa-check-circle"></i></a>
+                <span>100 тис. переглядів • 6 годин тому</span>
+              </div>
+            </div>
+            <i class="fas fa-ellipsis-v"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="thumbnail">
+          <a href="https://www.youtube.com/watch?v=X810YtV5A24">
+            <img src="https://i.ytimg.com/vi/X810YtV5A24/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAIf9P91_pE_eh-CGv0qOYikJgXjA">
+            <div class="video-time">25:38</div>
+          </a>
+        </div>
+        <div class="video-info">
+          <div class="video-title">
+            <a href="https://www.youtube.com/@bazovana_istoriya">
+              <img class="channel-icon" src="https://yt3.googleusercontent.com/mhbGEnBn8dcZ3k4iJM9-H_82cwVrSw7jeKRCm6wkYlhckK79ivDLyU-Z1WnuHK2FfoAa9uDZ=s160-c-k-c0x00ffffff-no-rj">
+            </a>
+            <div class="title-and-meta">
+              <a class="title-link" href="https://www.youtube.com/watch?v=X810YtV5A24">Росію СТВОРИЛИ Монголи? Чому Московія Це Не Русь?</a>
+              <div class="channel-info">
+                <a href="https://www.youtube.com/@bazovana_istoriya">Базованна Історія 🍉</a>
+                <span>58 тис. переглядів • 4 днів тому</span>
+              </div>
+            </div>
+            <i class="fas fa-ellipsis-v"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="thumbnail">
+          <a href="https://www.youtube.com/watch?v=OO14VSx74MU">
+            <img src="https://i.ytimg.com/vi/OO14VSx74MU/hqdefault.jpg?sqp=-oaymwEnCNACELwBSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLD5D48z70bDgOAuAq_cbYGcvexCVw">
+            <div class="video-time">2:00:7</div>
+          </a>
+        </div>
+        <div class="video-info">
+          <div class="video-title">
+            <a href="https://www.youtube.com/@RadicalLiving">
+              <img class="channel-icon" src="https://yt3.googleusercontent.com/FmmWe8ZQ-XLVajDSYEONOHk-bCY7wvxwfSVv6paNAkWWYm3td2tmLAdQUGBYuvFNXoNpuSd_BOU=s160-c-k-c0x00ffffff-no-rj">
+            </a>
+            <div class="title-and-meta">
+              <a class="title-link" href="https://www.youtube.com/watch?v=OO14VSx74MU">2 Hours of German WW2 Officer to help you Study/Work/Focus</a>
+              <div class="channel-info">
+                <a href="https://www.youtube.com/@RadicalLiving">RadicalLiving <i class="fas fa-check-circle"></i></a>
+                <span>2.3 млн переглядів • 2 роки тому</span>
+              </div>
+            </div>
+            <i class="fas fa-ellipsis-v"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="thumbnail">
+          <a href="https://www.youtube.com/watch?v=aEUG2mbMJjs">
+            <img src="https://i.ytimg.com/vi/aEUG2mbMJjs/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLBNcB3zDlUcmud2GKQYQiMsxCUlhQ">
+            <div class="video-time">30:48</div>
+          </a>
+        </div>
+        <div class="video-info">
+          <div class="video-title">
+            <a href="https://www.youtube.com/@kovalskyi">
+              <img class="channel-icon" src="https://yt3.googleusercontent.com/DWVoN6K5fvjF-xqCOMswDSrvQ1YyLjOp0x2B-p8AX0blPLkmG-eW8vKU1pL_do2MWet-OH8M=s160-c-k-c0x00ffffff-no-rj">
+            </a>
+            <div class="title-and-meta">
+              <a class="title-link" href="https://www.youtube.com/watch?v=aEUG2mbMJjs&t=19s">Спесивцев: 82 жертви і кулєбяка з людини</a>
+              <div class="channel-info">
+                <a href="https://www.youtube.com/@kovalskyi">КОВАЛЬСЬКИЙ <i class="fas fa-check-circle"></i> </a>
+                <span>123 тис. переглядів • 10 днів тому</span>
+              </div>
+            </div>
+            <i class="fas fa-ellipsis-v"></i>
+          </div>
+        </div>
+      </div>
+
+    </div> </div> </body>
+</html>
