@@ -1,0 +1,130 @@
+:root {
+    /* Кольори */
+    --bg: #dce1e8;        /* Фон сторінки */
+    --board: #eef1f5;     /* Фон підкладки */
+    --white: #fcfcfc;     /* Колір кнопок */
+    --text: #4b5563;      /* Колір тексту */
+    --shadow: #b4b9c2;    /* Тінь (3D ефект) */
+    
+    /* Розміри */
+    --size: 50px;         /* Базовий розмір кнопки */
+    --gap: 8px;           /* Відстань між кнопками */
+    --radius: 8px;        /* Закруглення */
+}
+
+body {
+    background-color: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* --- Загальний контейнер --- */
+.app {
+    background-color: var(--board);
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    border: 2px solid #fff;
+    
+    display: flex; /* Горизонтальне розташування Main + Numpad */
+    gap: 30px;     /* Відстань між основною частиною і нумпадом */
+    align-items: flex-start;
+}
+
+/* --- Основна клавіатура --- */
+.main-board {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.row {
+    display: flex;
+    gap: var(--gap);
+    justify-content: flex-start; /* Вирівнювання вліво */
+}
+
+/* --- Стиль кнопки --- */
+.btn {
+    width: var(--size);
+    height: var(--size);
+    background-color: var(--white);
+    color: var(--text);
+    border: none;
+    border-radius: var(--radius);
+    
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    
+    /* 3D ефект */
+    box-shadow: 0 4px 0 var(--shadow);
+    transition: all 0.1s ease;
+    
+    /* Центрування тексту/іконок */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+}
+
+/* Натискання */
+.btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+    background-color: #f4f4f4;
+}
+
+/* --- Спеціальні розміри кнопок (Main Board) --- */
+.backspace { width: 100px; }
+.tab       { width: 80px; }
+.caps      { width: 90px; }
+.enter     { width: 115px; }
+.shift     { width: 130px; }
+.ctrl      { width: 65px; }
+.space     { width: 340px; }
+
+/* Відступи для F-клавіш */
+.top-row { margin-bottom: 10px; }
+.f-group { display: flex; gap: var(--gap); margin-left: 30px; }
+.esc     { margin-right: auto; }
+
+/* Блок стрілок (міні-хак для вирівнювання) */
+.arrows {
+    display: flex;
+    gap: var(--gap);
+    align-items: flex-end; /* Вирівняти по низу */
+    margin-left: auto;     /* Притиснути вправо */
+}
+.arrows-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+}
+
+/* --- Numpad (Сітка) --- */
+.numpad {
+    display: grid;
+    grid-template-columns: repeat(4, var(--size));
+    grid-auto-rows: var(--size);
+    gap: var(--gap);
+    
+    /* Вирівняти висоту нумпаду відносно основи */
+    margin-top: 60px; /* Опускаємо трохи вниз, щоб вирівняти з цифрами */
+}
+
+/* Спецкнопки Numpad */
+.tall {
+    grid-row: span 2;  /* Висота на 2 клітинки */
+    height: 100%;      /* Заповнити всю висоту */
+}
+.zero {
+    grid-column: span 2; /* Ширина на 2 клітинки */
+    width: 100%;
+    justify-content: flex-start;
+    padding-left: 20px;
+}
