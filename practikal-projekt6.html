@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab 6 — Pokemon Scene</title>
+<style>
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+}
+
+.scene {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: linear-gradient(#87ceeb, #e0f7fa);
+  animation: skyShift 10s linear infinite alternate;
+  overflow: hidden;
+}
+
+/* Сонце */
+.sun {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, #ffeb3b, #fbc02d);
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgba(255, 223, 0, 0.8);
+  animation: moveSun 30s linear infinite alternate;
+  z-index: 1;
+}
+
+@keyframes moveSun {
+  0% { top: 10%; left: 10%; }
+  100% { top: 15%; left: 70%; }
+}
+
+/* Хмари */
+.cloud {
+  position: absolute;
+  width: 150px;
+  height: 100px;
+  background: url('https://pngimg.com/uploads/cloud/cloud_PNG27.png') no-repeat center;
+  background-size: contain;
+  opacity: 0.9;
+  animation: floatClouds 50s linear infinite;
+  z-index: 2;
+}
+
+.cloud.small { width: 100px; animation-duration: 30s; }
+.cloud.big { width: 200px; animation-duration: 70s; }
+.cloud.fast { width: 120px; animation-duration: 20s; }
+.cloud.slow { width: 180px; animation-duration: 90s; }
+
+.cloud:nth-child(2) { top: 15%; }
+.cloud:nth-child(3) { top: 25%; }
+.cloud:nth-child(4) { top: 35%; }
+.cloud:nth-child(5) { top: 20%; }
+.cloud:nth-child(6) { top: 40%; }
+
+@keyframes floatClouds {
+  0% { left: -250px; transform: translateY(-20px); }
+  50% { left: 50%; transform: translateY(30px); }
+  100% { left: 110%; transform: translateY(-10px); }
+}
+
+/* Земля */
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 132px;
+  background: linear-gradient(#4caf50, #082e0a);
+  box-shadow: 0 -10px 30px rgba(0,0,0,0.3) inset;
+}
+
+/* Кущ */
+.bush {
+  position: absolute;
+  bottom: 80px; 
+  width: 120px;
+  height: 100px;
+  background: url('Copilot_20251210_001712.png') no-repeat center;
+  background-size: contain;
+  z-index: 3;
+}
+
+/* Покемон */
+.pokemon {
+  position: absolute;
+  bottom: 100px;
+  left: 110%;
+  width: 96px;
+  height: 96px;
+  background: url('https://img.pokemondb.net/sprites/black-white/anim/shiny/rhydon.gif') no-repeat;
+  image-rendering: pixelated;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.7));
+  animation: run 12s linear infinite, jump 1s ease-in-out infinite;
+  transform: scaleX(-1);
+}
+
+/* Кнопки */
+.controls {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: flex;
+  gap: 10px;
+}
+button {
+  padding: 10px 20px;
+  border: none;
+  background: #1976d2;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+button:hover { background: #0d47a1; }
+
+/* KEYFRAMES */
+@keyframes skyShift {
+  0% { background: linear-gradient(#87ceeb, #e0f7fa); }
+  100% { background: linear-gradient(#4e9fff, #b9dfff); }
+}
+
+@keyframes jump {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes run {
+  0% { left: 110%; }
+  100% { left: -120px; }
+}
+</style>
+</head>
+<body>
+  <div class="scene" id="scene">
+    <!-- Сонце -->
+    <div class="sun"></div>
+
+    <!-- Хмари -->
+    <div class="cloud"></div>
+    <div class="cloud small"></div>
+    <div class="cloud big"></div>
+    <div class="cloud fast"></div>
+    <div class="cloud slow"></div>
+
+    <!-- Кущі -->
+    <div class="bush" style="left: 30%;"></div>
+    <div class="bush" style="left: 44%;"></div>
+    <div class="bush" style="left: 56%;"></div>
+    <div class="bush" style="left: 85%;"></div>
+
+    <!-- Покемон -->
+    <div class="pokemon" id="pokemon"></div>
+
+    <!-- Земля -->
+    <div class="ground"></div>
+
+    <!-- Кнопки -->
+    <div class="controls">
+      <button onclick="startAnim()">Start</button>
+      <button onclick="stopAnim()">Stop</button>
+      <button id="soundBtn" onclick="toggleSound()">Play Music</button>
+    </div>
+  </div>
+
+  <!-- Робочий звук -->
+  <audio id="sfx" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+  <script>
+    const pokemon = document.getElementById('pokemon');
+    const scene = document.getElementById('scene');
+    const sfx = document.getElementById('sfx');
+    const soundBtn = document.getElementById('soundBtn');
+
+    sfx.volume = 0.3;
+
+    function startAnim() {
+      pokemon.style.animationPlayState = 'running';
+      scene.style.animationPlayState = 'running';
+    }
+
+    function stopAnim() {
+      pokemon.style.animationPlayState = 'paused';
+      scene.style.animationPlayState = 'paused';
+    }
+
+    function toggleSound() {
+      if (sfx.paused) {
+        sfx.currentTime = 0;
+        sfx.play();
+        soundBtn.textContent = "Pause Music";
+      } else {
+        sfx.pause();
+        soundBtn.textContent = "Play Music";
+      }
+    }
+  </script>
+</body>
+</html>
